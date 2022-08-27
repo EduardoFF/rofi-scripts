@@ -1,0 +1,17 @@
+#!/bin/bash
+
+###########################################################
+# script done by cornerman (https://github.com/cornerman) #
+###########################################################
+
+function gen_workspaces()
+{
+    i3-msg -t get_workspaces | tr ',' '\n' | grep "name" | sed 's/"name":"\(.*\)"/\1/g' | sort -n
+}
+
+
+WORKSPACE=$( (echo empty; gen_workspaces)  | rofi -dmenu -p "Select workspace:")
+# https://gist.github.com/budRich/892c0153c06a27ea7bc89d8f8dec99d2
+WIN=$( i3get c)
+#WIN=94868307832512
+sh -c "i3-msg '[con_id=\"${WIN}\"]' move to workspace \"${WORKSPACE}\""
